@@ -1,0 +1,18 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class playerController : MonoBehaviour {
+
+	public float vitesse, vitesseRotation;
+
+
+	void Update () {
+		float rotation = Input.GetAxis ("Horizontal") * Time.deltaTime * vitesseRotation;
+		float translation = Input.GetAxis ("Vertical") * Time.deltaTime * vitesse;
+
+		transform.Rotate(0, rotation, 0);
+		transform.Translate(0, 0, translation);
+
+	}
+}
