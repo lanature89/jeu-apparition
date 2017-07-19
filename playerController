@@ -2,17 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playerController : MonoBehaviour {
+public class playerController : MonoBehaviour
+{
 
 	public float vitesse, vitesseRotation;
+	public float acceleration = 1.0f, decceleration = 1.0f, maxSpeed = 60.0f;
+
+	private float curSpeed = 0.0f;
 
 
-	void Update () {
+	void Update ()
+	{
 		float rotation = Input.GetAxis ("Horizontal") * Time.deltaTime * vitesseRotation;
-		float translation = Input.GetAxis ("Vertical") * Time.deltaTime * vitesse;
+		//float translation = Input.GetAxis ("Vertical") * Time.deltaTime * vitesse;
+		float translation = Input.GetAxis ("Vertical");
+	
+		transform.Rotate (0, rotation, 0);
+		transform.Translate (0, 0, (translation * curSpeed));
 
-		transform.Rotate(0, rotation, 0);
-		transform.Translate(0, 0, translation);
+		if (Input.GetAxis ("Vertical") != 0) {
+			curSpeed += acceleration;
+		}
+		if (Input.GetAxis ("Vertical") == 0) {
+			curSpeed -= decceleration;
+		}
+		if (curSpeed > maxSpeed) {
+			curSpeed = maxSpeed;
+		}
+		if (curSpeed < 0) {
+			curSpeed = 0;
+		}
+		Debug.Log ("Vitesse = " + curSpeed);
 
 	}
 }
+
